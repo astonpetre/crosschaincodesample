@@ -1,3 +1,33 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"strconv"
+
+	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+)
+
+// WalletContract contract for managing CRUD for Wallet
+type WalletContract struct {
+	contractapi.Contract
+}
+
+type Wallet struct {
+	WalletID          string  `json:"walletID"`
+	Owner             string  `json:"owner"`
+	WalletType        string  `json:"walletType"`
+	Balance           float64 `json:"balance"`
+	TransactionAmount float64 `json:"transactionAmount"`
+	TransactionState  string  `json:"transactionState"`
+	TransactionDate   string  `json:"transactionDate"`
+	LastModified      string  `json:"lastModified"`
+	ActionBy          string  `json:"actionBy"`
+	OrgMSP            string  `json:"orgMSP"`
+	ActionPerformed   string  `json:"actionPerformed"`
+}
+
 //Read Wallet
 func (s *WalletContract) ReadWallet(ctx contractapi.TransactionContextInterface, id string) (*Wallet, error) {
 	walletJSON, err := ctx.GetStub().GetState(id)
